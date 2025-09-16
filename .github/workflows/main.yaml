@@ -1,0 +1,40 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install required things
+        run: |
+          npm ci
+          npm install -g @angular/cli
+
+      - name: Build app
+        run: |
+          cp src/environments/environment.production.ts src/environments/environment.ts
+          ng build --configuration production
+
+      - name: Upload to server
+        uses: Dylan700/sftp-upload-action@latest
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          uploads: |
+            ./dist/baco-frontend/ => ./
+          delete: "true"
