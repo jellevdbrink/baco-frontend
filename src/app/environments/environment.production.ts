@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://electricsuperbiketwente.pythonanywhere.com/api'
-}
+  apiUrl: 'https://electricsuperbiketwente.pythonanywhere.com/api',
+};
