@@ -30,6 +30,10 @@ export type OrderItem = {
   quantity: number;
 }
 
+export type OrderItemDto = Omit<OrderItem, 'product'> & {
+  product_id: number;
+}
+
 export type Order = {
   datetime: Date;
   by: number;
