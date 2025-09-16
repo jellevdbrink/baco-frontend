@@ -9,6 +9,7 @@ import {
   Team,
   TeamMember,
 } from '../models';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +21,34 @@ export class ApiService {
     return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
   }
 
-  public getProducts() {
-    return this.http.get<Product[]>(`${environment.apiUrl}/products`);
+  public getProducts(): Observable<Product[]> {
+    return this.http
+      .get<any[]>(`${environment.apiUrl}/products`)
+      .pipe(
+        map((products) =>
+          products.map<Product>((product) => ({
+            ...product,
+            price: parseFloat(product.price),
+          })),
+        ),
+      );
   }
 
-  public getTeamMembers() {
+  public getTeamMembers(): Observable<TeamMember[]> {
     return this.http.get<TeamMember[]>(`${environment.apiUrl}/members`);
   }
 
-  public getTeams() {
-    return this.http.get<Team[]>(`${environment.apiUrl}/teams`);
+  public getTeams(): Observable<Team[]> {
+    return this.http
+      .get<any[]>(`${environment.apiUrl}/teams`)
+      .pipe(
+        map((teams) =>
+          teams.map<Team>((team) => ({
+            ...team,
+            start_date: new Date(team.start_date),
+          })),
+        ),
+      );
   }
 
   public createOrder(by: number, items: OrderItemDto[]) {
