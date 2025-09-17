@@ -1,12 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { AsyncPipe } from '@angular/common';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuItem } from 'primeng/api';
-import { httpResource } from '@angular/common/http';
-import { Category } from '../../models';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,8 +15,8 @@ import { Category } from '../../models';
 export class Sidebar implements OnInit {
   private apiService = inject(ApiService);
 
+  protected activeCategory = this.apiService.categoryId;
   protected categories$ = this.apiService.getCategories();
-  //protected categories = httpResource<Category[]>(this.apiService.getCategoriesUrl);
 
   protected menuItems?: MenuItem[];
 
@@ -30,21 +28,31 @@ export class Sidebar implements OnInit {
         },
         {
           label: 'Categories',
-          items: cats.map((cat) => ({
-            label: cat.name,
-            icon: `pi pi-${cat.icon}`
-          }))
+          items: [
+            {
+              label: 'All',
+              icon: 'all',
+              command: () => this.changeCategory(undefined),
+            },
+            ...cats.map((cat) => ({
+              label: cat.name,
+              icon: `${cat.icon}`,
+              command: () => this.changeCategory(cat.id),
+            })),
+          ],
         },
         {
           label: 'Other',
           items: [
             {
               label: 'Admin',
-              icon: 'pi pi-cog',
+              icon: 'cog',
+              url: `${environment.apiUrl.slice(0, -3)}admin`,
+              target: '_blank',
             },
             {
               label: 'Cart',
-              icon: 'pi pi-shopping-cart',
+              icon: 'shopping-cart',
               badge: '2',
             },
             {
@@ -58,5 +66,9 @@ export class Sidebar implements OnInit {
         },
       ];
     });
+  }
+
+  protected changeCategory(categoryId: number | undefined): void {
+    this.apiService.categoryId.set(categoryId);
   }
 }

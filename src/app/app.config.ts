@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  DEFAULT_CURRENCY_CODE,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
         preset: Aura,
       },
     }),
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
   ],
 };

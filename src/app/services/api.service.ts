@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import {
   Category,
   Order,
@@ -11,27 +11,33 @@ import {
 } from '../models';
 import { map, Observable } from 'rxjs';
 
+type receivedProduct = Omit<Product, 'price'> & { price: string };
+
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private http = inject(HttpClient);
 
+  public categoryId = signal<number | undefined>(undefined);
+  private categoryQueryParam = computed(() =>
+    this.categoryId() ? `?category=${this.categoryId()}` : '',
+  );
+
+  public products = httpResource<Product[]>(
+    () => `${environment.apiUrl}/products${this.categoryQueryParam()}`,
+    {
+      defaultValue: [],
+      parse: (resp: unknown) =>
+        (resp as receivedProduct[]).map<Product>((p) => ({
+          ...p,
+          price: parseFloat(p.price),
+        })),
+    },
+  );
+
   public getCategories() {
     return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
-  }
-
-  public getProducts(): Observable<Product[]> {
-    return this.http
-      .get<any[]>(`${environment.apiUrl}/products`)
-      .pipe(
-        map((products) =>
-          products.map<Product>((product) => ({
-            ...product,
-            price: parseFloat(product.price),
-          })),
-        ),
-      );
   }
 
   public getTeamMembers(): Observable<TeamMember[]> {
@@ -39,16 +45,14 @@ export class ApiService {
   }
 
   public getTeams(): Observable<Team[]> {
-    return this.http
-      .get<any[]>(`${environment.apiUrl}/teams`)
-      .pipe(
-        map((teams) =>
-          teams.map<Team>((team) => ({
-            ...team,
-            start_date: new Date(team.start_date),
-          })),
-        ),
-      );
+    return this.http.get<any[]>(`${environment.apiUrl}/teams`).pipe(
+      map((teams) =>
+        teams.map<Team>((team) => ({
+          ...team,
+          start_date: new Date(team.start_date),
+        })),
+      ),
+    );
   }
 
   public createOrder(by: number, items: OrderItemDto[]) {
