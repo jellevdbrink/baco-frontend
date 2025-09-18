@@ -1,0 +1,24 @@
+<div class="w-full h-full p-6">
+  @if (teamMembers.value().length) {
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+    >
+      @for (member of teamMembers.value(); track member.id) {
+        <div
+          (click)="selectMember(member)"
+          class="cursor-pointer rounded-2xl shadow bg-white p-6 flex flex-col items-center hover:shadow-lg transition"
+        >
+          <div
+            class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-700 text-xl font-bold"
+          >
+            {{ member.name[0] }}
+          </div>
+          <h2 class="text-lg font-semibold">{{ member.name }}</h2>
+          <p class="text-gray-500 text-sm">EST {{ member.team.number }}.0</p>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="text-center text-gray-500 py-8">Loading team members...</div>
+  }
+</div>

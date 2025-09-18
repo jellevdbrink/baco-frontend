@@ -1,6 +1,6 @@
 export type Team = {
   id: number;
-  name: string;
+  number: number;
   start_date: Date;
 };
 

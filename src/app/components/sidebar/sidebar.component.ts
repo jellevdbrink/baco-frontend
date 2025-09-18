@@ -5,6 +5,7 @@ import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,9 +15,12 @@ import { environment } from '../../../environments/environment';
 })
 export class Sidebar implements OnInit {
   private apiService = inject(ApiService);
+  private cartService = inject(CartService);
 
   protected activeCategory = this.apiService.categoryId;
   protected categories$ = this.apiService.getCategories();
+
+  protected activePerson = this.cartService.activePerson;
 
   protected menuItems?: MenuItem[];
 
@@ -53,7 +57,7 @@ export class Sidebar implements OnInit {
             {
               label: 'Cart',
               icon: 'shopping-cart',
-              badge: '2',
+              badge: this.cartService.itemsInCart().toString(),
             },
             {
               label: 'Quit',

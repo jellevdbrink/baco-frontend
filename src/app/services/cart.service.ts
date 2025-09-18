@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { OrderItem, OrderItemDto } from '../models';
+import { inject, Injectable, signal } from '@angular/core';
+import { OrderItem, OrderItemDto, TeamMember } from '../models';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { ApiService } from './api.service';
 export class CartService {
   private apiService = inject(ApiService);
 
+  public activePerson = signal<TeamMember | undefined>(undefined);
   private cart: OrderItemDto[] = [];
 
   private isInCart(productId: number): number | undefined {

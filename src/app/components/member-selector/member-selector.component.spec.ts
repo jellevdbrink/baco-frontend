@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainPage } from './main.page';
+import { MemberSelector } from './member-selector.component';
 
-describe('MainPage', () => {
-  let component: MainPage;
-  let fixture: ComponentFixture<MainPage>;
+describe('MemberSelector', () => {
+  let component: MemberSelector;
+  let fixture: ComponentFixture<MemberSelector>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MainPage],
+      imports: [MemberSelector],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MainPage);
+    fixture = TestBed.createComponent(MemberSelector);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

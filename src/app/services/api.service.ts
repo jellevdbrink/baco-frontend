@@ -36,12 +36,13 @@ export class ApiService {
     },
   );
 
+  public teamMembers = httpResource<TeamMember[]>(
+    () => `${environment.apiUrl}/team-members`,
+    { defaultValue: [] },
+  );
+
   public getCategories() {
     return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
-  }
-
-  public getTeamMembers(): Observable<TeamMember[]> {
-    return this.http.get<TeamMember[]>(`${environment.apiUrl}/members`);
   }
 
   public getTeams(): Observable<Team[]> {

@@ -37,10 +37,12 @@
           class="mr-2"
           shape="circle"
         />
-        <span class="inline-flex flex-col">
-          <span class="font-bold">Jelle</span>
-          <span class="text-sm"> EST 9.0</span>
-        </span>
+        @if (activePerson(); as activePerson) {
+          <span class="inline-flex flex-col">
+            <span class="font-bold">{{ activePerson.name }}</span>
+            <span class="text-sm"> EST {{ activePerson.team.number }}.0</span>
+          </span>
+        }
       </button>
     </ng-template>
   </p-menu>

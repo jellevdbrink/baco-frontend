@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
-import { MainPage } from './pages/main/main.page';
+import { MemberSelector } from './components/member-selector/member-selector.component';
+import { SelectMemberGuard } from './other/select-member.guard';
+import { Products } from './components/products/products.component';
 
 export const routes: Routes = [
-  { path: '', component: MainPage },
+  { path: 'products', component: Products, canActivate: [SelectMemberGuard] },
+  { path: 'member-selector', component: MemberSelector, canActivate: [] },
 
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'products' },
 ];
