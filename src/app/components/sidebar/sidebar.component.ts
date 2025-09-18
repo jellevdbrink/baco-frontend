@@ -6,6 +6,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { CartService } from '../../services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,11 +17,13 @@ import { CartService } from '../../services/cart.service';
 export class Sidebar implements OnInit {
   private apiService = inject(ApiService);
   private cartService = inject(CartService);
+  private router = inject(Router);
 
   protected activeCategory = this.apiService.categoryId;
   protected categories$ = this.apiService.getCategories();
 
   protected activePerson = this.cartService.activePerson;
+  protected numItemsInCart = this.cartService.numItemsInCart;
 
   protected menuItems?: MenuItem[];
 
@@ -57,11 +60,12 @@ export class Sidebar implements OnInit {
             {
               label: 'Cart',
               icon: 'shopping-cart',
-              badge: this.cartService.itemsInCart().toString(),
+              badge: 'yes',
             },
             {
               label: 'Quit',
               icon: 'pi pi-sign-out',
+              command: () => this.logOut(),
             },
           ],
         },
@@ -74,5 +78,10 @@ export class Sidebar implements OnInit {
 
   protected changeCategory(categoryId: number | undefined): void {
     this.apiService.categoryId.set(categoryId);
+  }
+
+  protected logOut() {
+    this.cartService.activePerson.set(undefined);
+    this.router.navigate(['/member-selector']);
   }
 }

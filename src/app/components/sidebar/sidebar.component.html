@@ -24,7 +24,7 @@
         <span class="pi pi-{{ item.icon }}"></span>
         <span class="ml-2">{{ item.label }}</span>
         @if (item.badge) {
-          <p-badge class="ml-auto" [value]="item.badge" />
+          <p-badge class="ml-auto" [value]="numItemsInCart()" />
         }
       </a>
     </ng-template>

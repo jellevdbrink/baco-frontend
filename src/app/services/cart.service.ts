@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { OrderItem, OrderItemDto, TeamMember } from '../models';
 import { ApiService } from './api.service';
 
@@ -9,56 +9,67 @@ export class CartService {
   private apiService = inject(ApiService);
 
   public activePerson = signal<TeamMember | undefined>(undefined);
-  private cart: OrderItemDto[] = [];
+  private cart = signal<OrderItemDto[]>([]);
 
-  private isInCart(productId: number): number | undefined {
-    return this.cart.findIndex(
+  public numItemsInCart = computed(() =>
+    this.cart().reduce((total, orderItem) => total + orderItem.quantity, 0),
+  );
+
+  private isInCart(productId: number): number {
+    return this.cart().findIndex(
       (orderItem) => orderItem.product_id === productId,
     );
   }
 
   public addToCart(productId: number, quantity = 1) {
     const index = this.isInCart(productId);
-    if (index) {
-      this.cart[index].quantity += quantity;
+    if (index !== -1) {
+      const updated = [...this.cart()];
+      updated[index] = {
+        ...updated[index],
+        quantity: updated[index].quantity + quantity,
+      };
+      this.cart.set(updated);
     } else {
-      this.cart.push({ product_id: productId, quantity });
+      this.cart.set([...this.cart(), { product_id: productId, quantity }]);
     }
   }
 
   public removeFromCart(productId: number, quantity = 1) {
     const index = this.isInCart(productId);
-    if (index) {
-      if (this.cart[index].quantity <= quantity) {
-        this.cart.splice(index, 1);
+    if (index !== -1) {
+      const updated = [...this.cart()];
+      if (updated[index].quantity <= quantity) {
+        updated.splice(index, 1);
       } else {
-        this.cart[index].quantity -= quantity;
+        updated[index] = {
+          ...updated[index],
+          quantity: updated[index].quantity - quantity,
+        };
       }
+      this.cart.set(updated);
     }
   }
 
-  public cartOverview(): OrderItem[] {
+  public cartOverview = computed<OrderItem[]>(() => {
     this.apiService.categoryId.set(undefined);
     const productMap = new Map(
       this.apiService.products.value().map((p) => [p.id, p]),
     );
 
-    return this.cart
+    return this.cart()
       .map(({ product_id, quantity }) => {
         const product = productMap.get(product_id);
         return product ? { product, quantity } : undefined;
       })
       .filter((item) => item !== undefined);
-  }
+  });
 
   public exportCart(): OrderItemDto[] {
-    return this.cart;
+    return this.cart();
   }
 
-  public itemsInCart(): number {
-    return this.cart.reduce(
-      (total, orderItem) => (total += orderItem.quantity),
-      0,
-    );
+  public clearCart(): void {
+    this.cart.set([]);
   }
 }
