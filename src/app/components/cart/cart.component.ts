@@ -20,6 +20,18 @@ export class Cart {
   protected numItemsInCart = this.cartService.numItemsInCart;
   protected total = this.cartService.total;
 
+  protected increaseItem(productId: number): void {
+    this.cartService.addToCart(productId, 1);
+  }
+
+  protected decreaseItem(productId: number): void {
+    this.cartService.removeFromCart(productId, 1);
+  }
+
+  protected deleteItem(productId: number): void {
+    this.cartService.deleteFromCart(productId);
+  }
+
   protected orderButtonDisabled(): boolean {
     return (
       this.cartService.activePerson() === undefined ||

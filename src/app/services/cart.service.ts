@@ -79,6 +79,15 @@ export class CartService {
     }
   }
 
+  public deleteFromCart(productId: number): void {
+    const index = this.isInCart(productId);
+    if (index !== -1) {
+      const updated = [...this.cart()];
+      updated.splice(index, 1);
+      this.cart.set(updated);
+    }
+  }
+
   public exportCart(): OrderItemDto[] {
     return this.cart();
   }
