@@ -78,4 +78,9 @@ export class CartService {
   public clearCart(): void {
     this.cart.set([]);
   }
+
+  public reset(): void {
+    this.activePerson.set(undefined);
+    this.clearCart();
+  }
 }

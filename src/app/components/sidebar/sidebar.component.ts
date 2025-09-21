@@ -19,7 +19,6 @@ export class Sidebar implements OnInit {
   private cartService = inject(CartService);
   private router = inject(Router);
 
-  protected activeCategory = this.apiService.categoryId;
   protected categories$ = this.apiService.getCategories();
 
   protected activePerson = this.cartService.activePerson;
@@ -55,7 +54,6 @@ export class Sidebar implements OnInit {
               label: 'Admin',
               icon: 'cog',
               url: `${environment.apiUrl.slice(0, -3)}admin`,
-              target: '_blank',
             },
             {
               label: 'Cart',
@@ -78,11 +76,13 @@ export class Sidebar implements OnInit {
   }
 
   protected changeCategory(categoryId: number | undefined): void {
-    this.apiService.categoryId.set(categoryId);
+    this.router.navigate(['/products'], {
+      queryParams: { categoryId },
+    });
   }
 
-  private logOut() {
-    this.cartService.activePerson.set(undefined);
+  private logOut(): void {
+    this.cartService.reset();
     this.router.navigate(['/member-selector']);
   }
 }

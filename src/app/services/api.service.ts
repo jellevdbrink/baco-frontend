@@ -19,8 +19,6 @@ type receivedProduct = Omit<Product, 'price'> & { price: string };
 export class ApiService {
   private http = inject(HttpClient);
 
-  public categoryId = signal<number | undefined>(undefined);
-
   public products = httpResource<Product[]>(
     () => `${environment.apiUrl}/products/`,
     {
@@ -31,16 +29,6 @@ export class ApiService {
           price: parseFloat(p.price),
         })),
     },
-  );
-
-  public filteredProducts = computed(() =>
-    this.products
-      .value()
-      .filter(
-        (product) =>
-          this.categoryId() === undefined ||
-          product.category.id === this.categoryId(),
-      ),
   );
 
   public teamMembers = httpResource<TeamMember[]>(

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ButtonModule } from 'primeng/button';
 import { CurrencyPipe } from '@angular/common';
@@ -14,9 +14,23 @@ export class Products {
   private apiService = inject(ApiService);
   private cartService = inject(CartService);
 
-  protected products = this.apiService.filteredProducts;
+  categoryId = input(undefined, { transform: this.transformCategoryId });
+
+  protected products = computed(() =>
+    this.apiService.products
+      .value()
+      .filter(
+        (product) =>
+          this.categoryId() === undefined ||
+          product.category.id === this.categoryId(),
+      ),
+  );
 
   protected addToCart(productId: number) {
     this.cartService.addToCart(productId);
+  }
+
+  private transformCategoryId(inp: string | undefined): number | undefined {
+    return inp === undefined ? inp : parseInt(inp);
   }
 }
