@@ -3,10 +3,11 @@ import { ApiService } from '../../services/api.service';
 import { ButtonModule } from 'primeng/button';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
+import { BadgeModule } from 'primeng/badge';
 
 @Component({
   selector: 'app-products',
-  imports: [CurrencyPipe, ButtonModule],
+  imports: [CurrencyPipe, ButtonModule, BadgeModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })
@@ -25,6 +26,10 @@ export class Products {
           product.category.id === this.categoryId(),
       ),
   );
+
+  protected qtyItemInCart(productId: number): number {
+    return this.cartService.qtyItemInCart(productId);
+  }
 
   protected addToCart(productId: number) {
     this.cartService.addToCart(productId);

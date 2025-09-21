@@ -41,6 +41,14 @@ export class CartService {
     );
   }
 
+  public qtyItemInCart(productId: number): number {
+    const index = this.isInCart(productId);
+    if (index !== -1) {
+      return this.cart()[index].quantity;
+    }
+    return 0;
+  }
+
   public addToCart(productId: number, quantity = 1) {
     const index = this.isInCart(productId);
     if (index !== -1) {
