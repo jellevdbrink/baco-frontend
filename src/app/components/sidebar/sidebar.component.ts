@@ -61,6 +61,7 @@ export class Sidebar implements OnInit {
               label: 'Cart',
               icon: 'shopping-cart',
               badge: 'yes',
+              command: () => this.router.navigate(['/cart']),
             },
             {
               label: 'Quit',
@@ -80,7 +81,7 @@ export class Sidebar implements OnInit {
     this.apiService.categoryId.set(categoryId);
   }
 
-  protected logOut() {
+  private logOut() {
     this.cartService.activePerson.set(undefined);
     this.router.navigate(['/member-selector']);
   }

@@ -20,12 +20,9 @@ export class ApiService {
   private http = inject(HttpClient);
 
   public categoryId = signal<number | undefined>(undefined);
-  private categoryQueryParam = computed(() =>
-    this.categoryId() ? `?category=${this.categoryId()}` : '',
-  );
 
   public products = httpResource<Product[]>(
-    () => `${environment.apiUrl}/products${this.categoryQueryParam()}`,
+    () => `${environment.apiUrl}/products/`,
     {
       defaultValue: [],
       parse: (resp: unknown) =>
@@ -36,17 +33,27 @@ export class ApiService {
     },
   );
 
+  public filteredProducts = computed(() =>
+    this.products
+      .value()
+      .filter(
+        (product) =>
+          this.categoryId() === undefined ||
+          product.category.id === this.categoryId(),
+      ),
+  );
+
   public teamMembers = httpResource<TeamMember[]>(
-    () => `${environment.apiUrl}/team-members`,
+    () => `${environment.apiUrl}/team-members/`,
     { defaultValue: [] },
   );
 
   public getCategories() {
-    return this.http.get<Category[]>(`${environment.apiUrl}/categories`);
+    return this.http.get<Category[]>(`${environment.apiUrl}/categories/`);
   }
 
   public getTeams(): Observable<Team[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/teams`).pipe(
+    return this.http.get<any[]>(`${environment.apiUrl}/teams/`).pipe(
       map((teams) =>
         teams.map<Team>((team) => ({
           ...team,
@@ -57,6 +64,9 @@ export class ApiService {
   }
 
   public createOrder(by: number, items: OrderItemDto[]) {
-    return this.http.post<Order>(`${environment.apiUrl}/orders`, { by, items });
+    return this.http.post<Order>(`${environment.apiUrl}/orders/`, {
+      by,
+      items,
+    });
   }
 }

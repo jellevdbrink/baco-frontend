@@ -15,6 +15,26 @@ export class CartService {
     this.cart().reduce((total, orderItem) => total + orderItem.quantity, 0),
   );
 
+  public cartOverview = computed<OrderItem[]>(() => {
+    const productMap = new Map(
+      this.apiService.products.value().map((p) => [p.id, p]),
+    );
+
+    return this.cart()
+      .map(({ product_id, quantity }) => {
+        const product = productMap.get(product_id);
+        return product ? { product, quantity } : undefined;
+      })
+      .filter((item) => item !== undefined);
+  });
+
+  public total = computed(() =>
+    this.cartOverview().reduce(
+      (sum, item) => sum + item.quantity * item.product.price,
+      0,
+    ),
+  );
+
   private isInCart(productId: number): number {
     return this.cart().findIndex(
       (orderItem) => orderItem.product_id === productId,
@@ -50,20 +70,6 @@ export class CartService {
       this.cart.set(updated);
     }
   }
-
-  public cartOverview = computed<OrderItem[]>(() => {
-    this.apiService.categoryId.set(undefined);
-    const productMap = new Map(
-      this.apiService.products.value().map((p) => [p.id, p]),
-    );
-
-    return this.cart()
-      .map(({ product_id, quantity }) => {
-        const product = productMap.get(product_id);
-        return product ? { product, quantity } : undefined;
-      })
-      .filter((item) => item !== undefined);
-  });
 
   public exportCart(): OrderItemDto[] {
     return this.cart();

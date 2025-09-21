@@ -14,7 +14,7 @@ export class Products {
   private apiService = inject(ApiService);
   private cartService = inject(CartService);
 
-  protected products = this.apiService.products;
+  protected products = this.apiService.filteredProducts;
 
   protected addToCart(productId: number) {
     this.cartService.addToCart(productId);
