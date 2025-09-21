@@ -3,12 +3,27 @@ import { MemberSelector } from './components/member-selector/member-selector.com
 import { SelectMemberGuard } from './other/select-member.guard';
 import { Products } from './components/products/products.component';
 import { Cart } from './components/cart/cart.component';
+import { Login } from './components/login/login.component';
+import { AuthGuard } from './other/auth.guard';
 
 export const routes: Routes = [
-  { path: 'member-selector', component: MemberSelector, canActivate: [] },
+  { path: 'login', component: Login },
+  {
+    path: 'member-selector',
+    component: MemberSelector,
+    canActivate: [AuthGuard],
+  },
 
-  { path: 'products', component: Products, canActivate: [SelectMemberGuard] },
-  { path: 'cart', component: Cart, canActivate: [SelectMemberGuard] },
+  {
+    path: 'products',
+    component: Products,
+    canActivate: [AuthGuard, SelectMemberGuard],
+  },
+  {
+    path: 'cart',
+    component: Cart,
+    canActivate: [AuthGuard, SelectMemberGuard],
+  },
 
-  { path: '**', redirectTo: 'member-selector' },
+  { path: '**', redirectTo: 'login' },
 ];

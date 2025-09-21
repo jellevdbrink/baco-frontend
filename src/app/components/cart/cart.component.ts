@@ -55,7 +55,7 @@ export class Cart {
           alert('Order placed successfully!');
           this.cartService.clearCart();
           this.cartService.activePerson.set(undefined);
-          this.router.navigate(['/']);
+          this.router.navigate(['/member-selector']);
         },
         error: (err) => {
           console.error(err);

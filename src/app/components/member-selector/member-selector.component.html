@@ -1,5 +1,5 @@
 <div class="w-full h-full p-6">
-  @if (teamMembers.value().length) {
+  @if (teamMembers.hasValue() && teamMembers.value().length) {
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
     >

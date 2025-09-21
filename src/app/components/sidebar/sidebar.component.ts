@@ -7,6 +7,7 @@ import { MenuItem } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 export class Sidebar implements OnInit {
   private apiService = inject(ApiService);
   private cartService = inject(CartService);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   protected categories$ = this.apiService.getCategories();
@@ -63,6 +65,11 @@ export class Sidebar implements OnInit {
             },
             {
               label: 'Quit',
+              icon: 'pi pi-times',
+              command: () => this.quit(),
+            },
+            {
+              label: 'Logout',
               icon: 'pi pi-sign-out',
               command: () => this.logOut(),
             },
@@ -81,8 +88,14 @@ export class Sidebar implements OnInit {
     });
   }
 
-  private logOut(): void {
+  private quit(): void {
     this.cartService.reset();
     this.router.navigate(['/member-selector']);
+  }
+
+  private logOut(): void {
+    this.cartService.reset();
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
