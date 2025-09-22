@@ -1,7 +1,7 @@
 <div class="w-full h-full p-6">
   @if (teamMembers.hasValue() && teamMembers.value().length) {
     <div
-      class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-4"
+      class="grid grid-cols-4  md:grid-cols-5 gap-4"
     >
       @for (member of teamMembers.value(); track member.id) {
         <p-card
