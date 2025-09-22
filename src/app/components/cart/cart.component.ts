@@ -1,13 +1,14 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CartService } from '../../services/cart.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-cart',
-  imports: [ButtonModule, CurrencyPipe],
+  imports: [ButtonModule, CurrencyPipe, CardModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
