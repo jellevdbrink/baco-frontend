@@ -1,13 +1,13 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { ButtonModule } from 'primeng/button';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { BadgeModule } from 'primeng/badge';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-products',
-  imports: [CurrencyPipe, ButtonModule, BadgeModule],
+  imports: [CurrencyPipe, BadgeModule, CardModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css',
 })

@@ -1,34 +1,38 @@
-<div class="p-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
+<div
+  class="p-6 grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 lg:grid-cols-5 gap-6 w-full"
+>
   @if (products(); as products) {
     @for (product of products; track product.id) {
-      <a (click)="addToCart(product.id)"
-        ><div class="rounded-2xl shadow bg-white p-4 flex flex-col">
+      <p-card (click)="addToCart(product.id)">
+        <ng-template #header>
           <img
             [src]="product.image"
             alt="{{ product.name }}"
-            class="h-48 w-full object-cover rounded-xl mb-4"
+            class="w-full h-48 object-cover rounded-xl"
           />
-          <h2 class="flex items-center gap-2 text-lg font-semibold mb-1">
+        </ng-template>
+
+        <ng-template #title>
+          <div class="flex items-center gap-2">
             <span>{{ product.name }}</span>
             @if (qtyItemInCart(product.id); as qty) {
-              <p-badge [value]="qty" />
+              <p-badge [value]="qty"></p-badge>
             }
-          </h2>
-          <p class="text-gray-600 text-sm mb-2">{{ product.description }}</p>
-          <div class="mt-auto flex items-center justify-between">
-            <span class="text-blue-600 font-bold">{{
-              product.price | currency
-            }}</span>
-            <!-- <button
-            pButton
-            type="button"
-            label="-1"
-            icon="pi pi-shopping-cart"
-            class="p-button-sm"
-          ></button> -->
           </div>
-        </div></a
-      >
+        </ng-template>
+
+        <ng-template #subtitle>
+          <span class="text-sm text-gray-600">{{ product.description }}</span>
+        </ng-template>
+
+        <ng-template #content>
+          <div class="flex justify-between items-center">
+            <span class="text-blue-600 font-bold">
+              {{ product.price | currency }}
+            </span>
+          </div>
+        </ng-template>
+      </p-card>
     }
   } @else {
     <div class="col-span-full text-center py-8 text-gray-500">

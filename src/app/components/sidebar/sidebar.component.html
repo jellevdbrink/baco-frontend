@@ -1,11 +1,7 @@
-<div class="card m-1">
-  <p-menu
-    [model]="menuItems"
-    class="flex justify-center"
-    styleClass="w-full md:w-60"
-  >
+<div class="flex card m-1 justify-center">
+  <p-menu [model]="menuItems" class="w-full">
     <ng-template #start>
-      <span class="inline-flex items-center gap-1 px-2 py-2">
+      <span class="inline-flex items-center gap-1 p-2">
         <p-avatar image="est-thunder.png" size="large" />
         <span class="text-xl font-semibold">
           BACO <span class="text-red-600">EST</span>
