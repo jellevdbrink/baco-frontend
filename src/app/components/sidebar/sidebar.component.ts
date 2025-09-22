@@ -69,6 +69,7 @@ export class Sidebar implements OnInit {
               label: 'Balance',
               icon: 'money-bill',
               badge: 'payment',
+              command: () => this.router.navigate(['/payment']),
             },
             {
               label: 'Quit',

@@ -41,3 +41,16 @@ export type Order = {
   by: number;
   items: OrderItem[];
 };
+
+export type Payment = {
+  id: number;
+  description: string;
+  by: number;
+  proof_picture: string;
+  completed: boolean;
+  amount: number;
+};
+
+export type PaymentDto = Omit<Payment, 'id' | 'proof_picture' | 'completed'> & {
+  proof_picture: File;
+};

@@ -5,6 +5,8 @@ import {
   Category,
   Order,
   OrderItemDto,
+  Payment,
+  PaymentDto,
   Product,
   Team,
   TeamMember,
@@ -64,5 +66,15 @@ export class ApiService {
       by,
       items,
     });
+  }
+
+  public createPayment(dto: PaymentDto) {
+    const formData = new FormData();
+    formData.append('by', dto.by.toString());
+    formData.append('amount', dto.amount.toString());
+    formData.append('description', dto.description);
+    formData.append('proof_picture', dto.proof_picture);
+
+    return this.http.post<Payment>(`${environment.apiUrl}/payments/`, formData);
   }
 }

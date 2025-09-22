@@ -5,6 +5,7 @@ import { Products } from './components/products/products.component';
 import { Cart } from './components/cart/cart.component';
 import { Login } from './components/login/login.component';
 import { AuthGuard } from './other/auth.guard';
+import { Payment } from './components/payment/payment.component';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -22,6 +23,11 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: Cart,
+    canActivate: [AuthGuard, SelectMemberGuard],
+  },
+  {
+    path: 'payment',
+    component: Payment,
     canActivate: [AuthGuard, SelectMemberGuard],
   },
 
