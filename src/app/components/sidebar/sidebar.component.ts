@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
@@ -8,10 +8,11 @@ import { environment } from '../../../environments/environment';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [MenuModule, BadgeModule, AvatarModule],
+  imports: [MenuModule, BadgeModule, AvatarModule, CurrencyPipe],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
@@ -24,6 +25,7 @@ export class Sidebar implements OnInit {
   protected categories$ = this.apiService.getCategories();
 
   protected activePerson = this.cartService.activePerson;
+  protected balanceActivePerson = this.cartService.balanceActivePerson;
   protected numItemsInCart = this.cartService.numItemsInCart;
 
   protected menuItems?: MenuItem[];
@@ -60,8 +62,13 @@ export class Sidebar implements OnInit {
             {
               label: 'Cart',
               icon: 'shopping-cart',
-              badge: 'yes',
+              badge: 'cart',
               command: () => this.router.navigate(['/cart']),
+            },
+            {
+              label: 'Balance',
+              icon: 'money-bill',
+              badge: 'payment',
             },
             {
               label: 'Quit',

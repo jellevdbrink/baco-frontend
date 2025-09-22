@@ -35,6 +35,13 @@ export class CartService {
     ),
   );
 
+  public balanceActivePerson = computed(
+    () =>
+      this.apiService.teamMembers
+        .value()
+        .find((tm) => tm.id === this.activePerson()?.id)?.balance ?? 0,
+  );
+
   private isInCart(productId: number): number {
     return this.cart().findIndex(
       (orderItem) => orderItem.product_id === productId,

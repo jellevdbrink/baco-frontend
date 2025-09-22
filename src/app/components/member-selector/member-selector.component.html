@@ -1,8 +1,6 @@
 <div class="w-full h-full p-6">
   @if (teamMembers.hasValue() && teamMembers.value().length) {
-    <div
-      class="grid grid-cols-4  md:grid-cols-5 gap-4"
-    >
+    <div class="grid grid-cols-4 md:grid-cols-5 gap-4">
       @for (member of teamMembers.value(); track member.id) {
         <p-card
           class="flex flex-col items-center text-center pt-4"

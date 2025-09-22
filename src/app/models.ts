@@ -8,6 +8,8 @@ export type TeamMember = {
   id: number;
   name: string;
   team: Team;
+  email: string;
+  balance: number;
 };
 
 export type Category = {

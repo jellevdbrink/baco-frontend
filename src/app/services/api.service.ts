@@ -12,6 +12,7 @@ import {
 import { map, Observable } from 'rxjs';
 
 type receivedProduct = Omit<Product, 'price'> & { price: string };
+type receivedTeamMember = Omit<TeamMember, 'balance'> & { balance: string };
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,14 @@ export class ApiService {
 
   public teamMembers = httpResource<TeamMember[]>(
     () => `${environment.apiUrl}/team-members/`,
-    { defaultValue: [] },
+    {
+      defaultValue: [],
+      parse: (resp: unknown) =>
+        (resp as receivedTeamMember[]).map<TeamMember>((tm) => ({
+          ...tm,
+          balance: parseFloat(tm.balance),
+        })),
+    },
   );
 
   public getCategories() {

@@ -19,8 +19,14 @@
       >
         <span class="pi pi-{{ item.icon }}"></span>
         <span class="ml-2">{{ item.label }}</span>
-        @if (item.badge) {
-          <p-badge class="ml-auto" [value]="numItemsInCart()" />
+        @if (item.badge === "cart") {
+          <p-badge class="ml-auto" [value]="numItemsInCart()" severity="info" />
+        } @else if (item.badge === "payment") {
+          <p-badge
+            class="ml-auto"
+            [value]="(balanceActivePerson() | currency) ?? ''"
+            [severity]="balanceActivePerson() < 0 ? 'danger' : 'success'"
+          />
         }
       </a>
     </ng-template>

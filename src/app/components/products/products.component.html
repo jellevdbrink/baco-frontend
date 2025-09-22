@@ -1,6 +1,4 @@
-<div
-  class="p-6 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-5 gap-6 w-full"
->
+<div class="p-6 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-5 gap-6 w-full">
   @if (products(); as products) {
     @for (product of products; track product.id) {
       <p-card (click)="addToCart(product.id)">
@@ -16,7 +14,7 @@
           <div class="flex items-center gap-2">
             <span>{{ product.name }}</span>
             @if (qtyItemInCart(product.id); as qty) {
-              <p-badge [value]="qty"></p-badge>
+              <p-badge [value]="qty" severity="info" />
             }
           </div>
         </ng-template>
