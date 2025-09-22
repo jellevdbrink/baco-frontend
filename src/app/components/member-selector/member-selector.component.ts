@@ -3,10 +3,12 @@ import { ApiService } from '../../services/api.service';
 import { TeamMember } from '../../models';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
+import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-member-selector',
-  imports: [],
+  imports: [CardModule, AvatarModule],
   templateUrl: './member-selector.component.html',
   styleUrl: './member-selector.component.css',
 })

@@ -1,21 +1,30 @@
 <div class="w-full h-full p-6">
   @if (teamMembers.hasValue() && teamMembers.value().length) {
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-5 gap-4"
     >
       @for (member of teamMembers.value(); track member.id) {
-        <div
+        <p-card
+          class="flex flex-col items-center text-center pt-4"
           (click)="selectMember(member)"
-          class="cursor-pointer rounded-2xl shadow bg-white p-6 flex flex-col items-center hover:shadow-lg transition"
         >
-          <div
-            class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-blue-700 text-xl font-bold"
+          <ng-template #header>
+            <p-avatar
+              [label]="member.name[0]"
+              size="xlarge"
+              shape="circle"
+              class="bg-blue-100 text-blue-700 font-semibold"
+            />
+          </ng-template>
+          <ng-template #title
+            ><span class="font-semibold">{{ member.name }}</span></ng-template
           >
-            {{ member.name[0] }}
-          </div>
-          <h2 class="text-lg font-semibold">{{ member.name }}</h2>
-          <p class="text-gray-500 text-sm">EST {{ member.team.number }}.0</p>
-        </div>
+          <ng-template #subtitle
+            ><span class="text-sm"
+              >EST {{ member.team.number }}.0</span
+            ></ng-template
+          >
+        </p-card>
       }
     </div>
   } @else {
