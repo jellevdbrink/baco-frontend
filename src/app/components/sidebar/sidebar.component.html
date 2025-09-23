@@ -25,7 +25,7 @@
           <p-badge
             class="ml-auto"
             [value]="(balanceActivePerson() | currency) ?? ''"
-            [severity]="balanceActivePerson() < 0 ? 'danger' : 'success'"
+            [severity]="balanceBadgeColour()"
           />
         }
       </a>

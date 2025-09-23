@@ -8,6 +8,14 @@
   }
 
   <div class="flex-1 overflow-y-auto">
+    @if (showSideBar()) {
+      @if (balanceMessage(); as balanceMessage) {
+        <p-message [severity]="balanceMessage.severity" styleClass="mx-4 mt-2">
+          <h5 class="font-bold">{{ balanceMessage.detail }}</h5>
+          <p>{{ balanceMessage.message }}</p>
+        </p-message>
+      }
+    }
     <router-outlet />
   </div>
 </div>

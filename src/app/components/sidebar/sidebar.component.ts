@@ -26,6 +26,7 @@ export class Sidebar implements OnInit {
 
   protected activePerson = this.cartService.activePerson;
   protected balanceActivePerson = this.cartService.balanceActivePerson;
+  protected balanceBadgeColour = this.cartService.balanceBadgeColour;
   protected numItemsInCart = this.cartService.numItemsInCart;
 
   protected menuItems?: MenuItem[];

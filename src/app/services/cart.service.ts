@@ -42,6 +42,17 @@ export class CartService {
         .find((tm) => tm.id === this.activePerson()?.id)?.balance ?? 0,
   );
 
+  public balanceBadgeColour = computed(() => {
+    const balance = this.balanceActivePerson();
+    if (balance < 0) {
+      return 'danger';
+    } else if (balance > 15) {
+      return 'success';
+    } else {
+      return 'warn';
+    }
+  });
+
   private isInCart(productId: number): number {
     return this.cart().findIndex(
       (orderItem) => orderItem.product_id === productId,
