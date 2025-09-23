@@ -22,8 +22,9 @@ export class Products {
       .value()
       .filter(
         (product) =>
-          this.categoryId() === undefined ||
-          product.category.id === this.categoryId(),
+          (this.categoryId() === undefined ||
+            product.category.id === this.categoryId()) &&
+          product.visible,
       ),
   );
 

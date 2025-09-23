@@ -61,7 +61,7 @@ export class Cart {
         next: (order) => {
           this.messageService.add({
             summary: `Success!!`,
-            detail: 'Your order was placed succesfully.',
+            detail: `Your order of €${order.total_amount} was placed succesfully.`,
             severity: 'success',
           });
 

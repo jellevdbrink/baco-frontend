@@ -25,14 +25,16 @@ export type Product = {
   description: string;
   price: number;
   category: Category;
+  visible: boolean;
 };
 
 export type OrderItem = {
   product: Product;
   quantity: number;
+  // unit_price: number; // It does receive this from the api, but has no use here
 };
 
-export type OrderItemDto = Omit<OrderItem, 'product'> & {
+export type OrderItemDto = Omit<OrderItem, 'product' | 'unit_price'> & {
   product_id: number;
 };
 
@@ -40,6 +42,7 @@ export type Order = {
   datetime: Date;
   by: number;
   items: OrderItem[];
+  total_amount: string; // Should be a number
 };
 
 export type Payment = {
