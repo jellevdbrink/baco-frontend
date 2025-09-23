@@ -53,13 +53,8 @@ export class Sidebar implements OnInit {
           ],
         },
         {
-          label: 'Other',
+          label: 'Pages',
           items: [
-            {
-              label: 'Admin',
-              icon: 'cog',
-              url: `${environment.apiUrl.slice(0, -3)}admin`,
-            },
             {
               label: 'Cart',
               icon: 'shopping-cart',
@@ -76,6 +71,16 @@ export class Sidebar implements OnInit {
               label: 'Quit',
               icon: 'pi pi-times',
               command: () => this.quit(),
+            },
+          ],
+        },
+        {
+          label: 'Other',
+          items: [
+            {
+              label: 'Admin',
+              icon: 'cog',
+              url: `${environment.apiUrl.slice(0, -3)}admin`,
             },
             {
               label: 'Logout',
