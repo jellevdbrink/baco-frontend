@@ -73,7 +73,7 @@ export class ApiService {
     formData.append('by', dto.by.toString());
     formData.append('amount', dto.amount.toString());
     formData.append('description', dto.description);
-    formData.append('proof_picture', dto.proof_picture);
+    // formData.append('proof_picture', dto.proof_picture);
 
     return this.http.post<Payment>(`${environment.apiUrl}/payments/`, formData);
   }

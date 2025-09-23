@@ -52,5 +52,5 @@ export type Payment = {
 };
 
 export type PaymentDto = Omit<Payment, 'id' | 'proof_picture' | 'completed'> & {
-  proof_picture: File;
+  // proof_picture: File;
 };

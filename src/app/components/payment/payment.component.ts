@@ -51,7 +51,7 @@ export class Payment {
       Validators.required,
       Validators.min(0.01),
     ]),
-    proof_picture: this.fb.control<File | null>(null, [Validators.required]),
+    proof_picture: this.fb.control<File | null>(null),
     description: this.fb.control(''),
   });
 
@@ -73,8 +73,8 @@ export class Payment {
 
     if (
       this.sendPaymentButtonDisabled() ||
-      !activePerson ||
-      !value.proof_picture
+      !activePerson
+      // || !value.proof_picture
     ) {
       return;
     }
@@ -84,7 +84,7 @@ export class Payment {
     this.apiService
       .createPayment({
         by: activePerson.id,
-        proof_picture: value.proof_picture,
+        // proof_picture: value.proof_picture,
         description: value.description,
         amount: value.amount,
       })
