@@ -53,7 +53,7 @@
       <button
         pButton
         (click)="sendPayment()"
-        [disabled]="paymentForm.invalid"
+        [disabled]="sendPaymentButtonDisabled()"
         class="w-full"
       >
         <span pButtonLabel>Send payment</span>

@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
@@ -19,6 +19,7 @@ import { CartService } from '../../services/cart.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { QRCodeComponent } from 'dfx-qrcode';
 import { environment } from '../../../environments/environment';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-payment',
@@ -38,10 +39,12 @@ import { environment } from '../../../environments/environment';
 export class Payment {
   private apiService = inject(ApiService);
   private cartService = inject(CartService);
+  private messageService = inject(MessageService);
   private fb = inject(NonNullableFormBuilder);
 
   @ViewChild(FileUpload) fileUpload!: FileUpload;
   protected qrCode = environment.qrCodeUrl;
+  protected loading = signal(false);
 
   protected paymentForm = this.fb.group({
     amount: this.fb.control(this.getStartAmount(), [
@@ -60,12 +63,23 @@ export class Payment {
     }
   }
 
+  protected sendPaymentButtonDisabled(): boolean {
+    return this.paymentForm.invalid || this.loading();
+  }
+
   protected sendPayment(): void {
     const value = this.paymentForm.getRawValue();
     const activePerson = this.cartService.activePerson();
 
-    if (this.paymentForm.invalid || !activePerson || !value.proof_picture)
+    if (
+      this.sendPaymentButtonDisabled() ||
+      !activePerson ||
+      !value.proof_picture
+    ) {
       return;
+    }
+
+    this.loading.set(true);
 
     this.apiService
       .createPayment({
@@ -76,14 +90,22 @@ export class Payment {
       })
       .subscribe({
         next: (payment) => {
-          alert(
-            `Successfully sent payment of €${value.amount}! will be added when confirmed`,
-          );
+          this.messageService.add({
+            summary: `Success!!`,
+            detail: `Payment of €${value.amount} submitted! Your balance will be updated when it is approved.`,
+            severity: 'success',
+          });
           this.resetForm();
+          this.loading.set(false);
         },
         error: (err: HttpErrorResponse) => {
-          console.error(err);
-          alert('Something went wrong. status/statusText');
+          console.log(err);
+          this.messageService.add({
+            summary: `Failed to submit payment`,
+            detail: `${err.status}: ${err.statusText}`,
+            severity: 'error',
+          });
+          this.loading.set(false);
         },
       });
   }

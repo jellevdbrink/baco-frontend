@@ -82,10 +82,15 @@
         type="button"
         class="w-full py-8 text-lg"
         label="Place Order"
-        icon="pi pi-check"
         [disabled]="orderButtonDisabled()"
         (click)="placeOrder()"
-      ></button>
+      >
+        @if (loading()) {
+          <i class="pi pi-spin pi-spinner"></i>
+        } @else {
+          <i class="pi pi-check"></i>
+        }
+      </button>
     </div>
   }
 </div>

@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { FloatLabel } from 'primeng/floatlabel';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ export class Login {
   private fb = inject(NonNullableFormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   protected loginForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
@@ -45,7 +47,12 @@ export class Login {
         this.router.navigate(['/products']);
       },
       error: (error: HttpErrorResponse) => {
-        alert(`${error.status}: ${error.error.non_field_errors[0]}`);
+        console.log(error);
+        this.messageService.add({
+          summary: `Error ${error.status}`,
+          detail: error.error.non_field_errors[0],
+          severity: 'error',
+        });
       },
     });
   }
