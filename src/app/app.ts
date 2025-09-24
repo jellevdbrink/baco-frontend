@@ -29,8 +29,8 @@ export class App {
       detail: balanceBadgeColour === 'warn' ? 'Warning!!' : 'WARNING!!',
       message:
         balanceBadgeColour === 'warn'
-          ? 'Your balance is low, please give more money.'
-          : 'Your balance is very very very low, you have to give money now otherwise the BaCo will be very angry.',
+          ? 'Your balance is almost too low, please give more money. Under €0 you cannot order.'
+          : 'Your balance is too low, you have to give money now and you cannot order now.',
     };
   });
 }

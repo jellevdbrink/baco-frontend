@@ -37,16 +37,16 @@ export class CartService {
 
   public balanceActivePerson = computed(
     () =>
-      this.apiService.teamMembers
+      (this.apiService.teamMembers
         .value()
-        .find((tm) => tm.id === this.activePerson()?.id)?.balance ?? 0,
+        .find((tm) => tm.id === this.activePerson()?.id)?.balance ?? 0) - 15,
   );
 
   public balanceBadgeColour = computed(() => {
     const balance = this.balanceActivePerson();
     if (balance < 0) {
       return 'danger';
-    } else if (balance > 15) {
+    } else if (balance > 10) {
       return 'success';
     } else {
       return 'warn';

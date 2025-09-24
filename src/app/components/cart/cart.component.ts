@@ -42,7 +42,8 @@ export class Cart {
     return (
       this.cartService.activePerson() === undefined ||
       this.cartService.numItemsInCart() === 0 ||
-      this.loading()
+      this.loading() ||
+      this.cartService.balanceActivePerson() < 0
     );
   }
 
