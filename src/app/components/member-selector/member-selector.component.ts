@@ -21,6 +21,7 @@ export class MemberSelector {
 
   protected selectMember(teamMember: TeamMember) {
     this.cartService.activePerson.set(teamMember);
+    this.apiService.teamMembers.reload();
     this.router.navigate(['/products']);
   }
 }

@@ -68,6 +68,7 @@ export class Cart {
           this.cartService.clearCart();
           this.cartService.activePerson.set(undefined);
           this.router.navigate(['/member-selector']);
+          this.apiService.teamMembers.reload();
           this.loading.set(false);
         },
         error: (error: HttpErrorResponse) => {
