@@ -46,7 +46,7 @@ export class CartService {
     const balance = this.balanceActivePerson();
     if (balance < 0) {
       return 'danger';
-    } else if (balance > 10) {
+    } else if (balance > 5) {
       return 'success';
     } else {
       return 'warn';
