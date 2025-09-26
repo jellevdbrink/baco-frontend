@@ -13,6 +13,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ import { MessageService } from 'primeng/api';
 export class Login {
   private fb = inject(NonNullableFormBuilder);
   private authService = inject(AuthService);
+  private apiService = inject(ApiService);
   private router = inject(Router);
   private messageService = inject(MessageService);
 
@@ -45,6 +47,8 @@ export class Login {
     this.authService.login(value.username, value.password).subscribe({
       next: (response) => {
         this.router.navigate(['/products']);
+        this.apiService.products.reload();
+        this.apiService.teamMembers.reload();
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);
