@@ -1,0 +1,48 @@
+@if (!dataLoaded()) {
+  <span
+    >Loading data <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i
+  ></span>
+}
+<div class="m-2">
+  <div class="grid grid-cols-2 gap-6">
+    <p-card header="EST Summary">
+      @if (globalSummary.hasValue()) {
+        @let gs = globalSummary.value();
+        <div class="grid grid-cols-2 gap-4">
+          <div>Total Spent: {{ gs.total_spent | currency }}</div>
+          <div>Total Orders: {{ gs.total_orders }}</div>
+          <div>Avg. Order Value: {{ gs.avg_order_value | currency }}</div>
+          <div>Avg. Orders/Day: {{ gs.avg_orders_per_day }}</div>
+        </div>
+      }
+    </p-card>
+
+    <p-card header="Your Summary">
+      @if (userSummary.hasValue()) {
+        @let us = userSummary.value();
+        <div class="grid grid-cols-2 gap-4">
+          <div>Total Spent: {{ us.total_spent | currency }}</div>
+          <div>Total Orders: {{ us.total_orders }}</div>
+          <div>Avg. Order Value: {{ us.avg_order_value | currency }}</div>
+          <div>Avg. Orders/Day: {{ us.avg_orders_per_day }}</div>
+        </div>
+      }
+    </p-card>
+  </div>
+
+  <div class="grid grid-cols-2 gap-6 mt-6">
+    <p-card header="Top Products">
+      <p-chart type="bar" [data]="topProductsChartData()"></p-chart>
+    </p-card>
+
+    <p-card header="Top Users">
+      <p-chart type="bar" [data]="topUsersChartData()"></p-chart>
+    </p-card>
+  </div>
+
+  <div class="mt-6">
+    <p-card header="Sales Over Time">
+      <p-chart type="line" [data]="salesOverTimeChartData()"></p-chart>
+    </p-card>
+  </div>
+</div>

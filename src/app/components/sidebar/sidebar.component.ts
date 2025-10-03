@@ -68,6 +68,11 @@ export class Sidebar implements OnInit {
               command: () => this.router.navigate(['/payment']),
             },
             {
+              label: 'Dashboard',
+              icon: 'chart-bar',
+              command: () => this.router.navigate(['/dashboard']),
+            },
+            {
               label: 'Quit',
               icon: 'pi pi-times',
               command: () => this.quit(),

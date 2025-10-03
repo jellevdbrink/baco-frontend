@@ -6,6 +6,7 @@ import { Cart } from './components/cart/cart.component';
 import { Login } from './components/login/login.component';
 import { AuthGuard } from './other/auth.guard';
 import { Payment } from './components/payment/payment.component';
+import { Dashboard } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -28,6 +29,11 @@ export const routes: Routes = [
   {
     path: 'payment',
     component: Payment,
+    canActivate: [AuthGuard, SelectMemberGuard],
+  },
+  {
+    path: 'dashboard',
+    component: Dashboard,
     canActivate: [AuthGuard, SelectMemberGuard],
   },
 
